@@ -390,5 +390,239 @@
     .btn-cart:hover { background: var(--matcha-dark); transform: scale(1.1) rotate(8deg); }
 
     /* ============================================================
-       ABOUT SECTION
+       ABOUT SECTION   
+      ============================================================ */
+      /* ============================================================
+       CONTACT SECTION
     ============================================================ */
+    #contact { background: var(--cream); }
+    .contact-wrap {
+      max-width: 640px; margin: 0 auto; margin-top: 48px;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block; margin-bottom: 8px;
+      font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-mid);
+    }
+    .form-input {
+      width: 100%; padding: 14px 18px; border-radius: 12px;
+      border: 1.5px solid var(--cream-dark); background: var(--white);
+      color: var(--text-dark); font-family: 'DM Sans', sans-serif; font-size: .9rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: var(--matcha); box-shadow: 0 0 0 4px rgba(107,175,146,.12);
+    }
+    textarea.form-input { resize: vertical; min-height: 120px; }
+    .btn-submit {
+      width: 100%; padding: 16px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--matcha), var(--matcha-dark));
+      color: var(--white); font-size: .9rem; letter-spacing: .08em; text-transform: uppercase;
+      font-weight: 500; transition: all var(--transition);
+      box-shadow: 0 8px 24px rgba(107,175,146,.35);
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(107,175,146,.4); }
+ 
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--matcha-deep); color: rgba(255,255,255,.7);
+      padding: 60px 5% 32px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 48px;
+    }
+    .footer-brand .nav-logo { color: var(--white); font-size: 1.8rem; display: block; margin-bottom: 12px; }
+    .footer-brand p { font-size: .85rem; line-height: 1.8; opacity: .7; max-width: 280px; }
+    .footer-col h5 {
+      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: .85rem; opacity: .7; transition: opacity var(--transition); }
+    .footer-col a:hover { opacity: 1; color: var(--matcha-light); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .75rem; opacity: .5;
+    }
+ 
+    /* ============================================================
+       MODAL BASE
+    ============================================================ */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(15,31,23,.7); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn .3s ease; }
+    .modal-box {
+      background: var(--white); border-radius: var(--radius-xl);
+      padding: 48px 40px; max-width: 460px; width: 100%;
+      box-shadow: 0 40px 100px rgba(0,0,0,.3);
+      animation: slideUp .4s ease;
+      position: relative; overflow: hidden;
+    }
+    .modal-box::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--matcha), var(--gold));
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--cream-dark); color: var(--text-mid);
+      display: flex; align-items: center; justify-content: center; font-size: .9rem;
+      transition: all var(--transition);
+    }
+    .modal-close:hover { background: var(--matcha); color: var(--white); }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 400; color: var(--text-dark); margin-bottom: 6px;
+    }
+    .modal-sub { font-size: .85rem; color: var(--text-light); margin-bottom: 32px; }
+    .modal-tabs {
+      display: flex; gap: 0; margin-bottom: 28px;
+      background: var(--cream); border-radius: 50px; padding: 4px;
+    }
+    .modal-tab {
+      flex: 1; padding: 10px; border-radius: 50px; text-align: center;
+      font-size: .8rem; letter-spacing: .06em; text-transform: uppercase;
+      transition: all var(--transition); color: var(--text-light);
+    }
+    .modal-tab.active { background: var(--white); color: var(--matcha); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .form-hint { font-size: .75rem; color: var(--text-light); margin-top: 6px; }
+    .btn-auth {
+      width: 100%; padding: 15px; border-radius: 12px; margin-top: 8px;
+      background: linear-gradient(135deg, var(--matcha), var(--matcha-dark));
+      color: var(--white); font-size: .9rem; letter-spacing: .06em; text-transform: uppercase;
+      font-weight: 500; transition: all var(--transition);
+      box-shadow: 0 8px 24px rgba(107,175,146,.35);
+    }
+    .btn-auth:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(107,175,146,.4); }
+ 
+    /* ============================================================
+       CART MODAL
+    ============================================================ */
+    .cart-box { max-width: 540px; }
+    .cart-items { max-height: 320px; overflow-y: auto; margin-bottom: 24px; }
+    .cart-item {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 0; border-bottom: 1px solid var(--cream-dark);
+    }
+    .cart-item-emoji { font-size: 2.5rem; width: 56px; height: 56px; border-radius: 12px; background: var(--matcha-pale); display: flex; align-items: center; justify-content: center; }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-weight: 500; font-size: .9rem; color: var(--text-dark); }
+    .cart-item-price { font-size: .8rem; color: var(--matcha); margin-top: 2px; }
+    .cart-item-qty { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+    .qty-btn {
+      width: 24px; height: 24px; border-radius: 50%; background: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; color: var(--text-mid); transition: all var(--transition);
+    }
+    .qty-btn:hover { background: var(--matcha); color: var(--white); }
+    .qty-num { font-size: .85rem; color: var(--text-dark); min-width: 20px; text-align: center; }
+    .cart-remove { color: var(--text-light); font-size: .85rem; transition: color var(--transition); }
+    .cart-remove:hover { color: #e05c5c; }
+    .cart-empty { text-align: center; padding: 40px; color: var(--text-light); font-size: .9rem; }
+    .cart-empty .empty-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+    .cart-total {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 0; border-top: 1.5px solid var(--matcha-pale);
+      margin-bottom: 16px;
+    }
+    .cart-total-label { font-weight: 500; color: var(--text-dark); }
+    .cart-total-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; color: var(--matcha-dark); font-weight: 600;
+    }
+ 
+    /* ============================================================
+       CHECKOUT MODAL
+    ============================================================ */
+    .checkout-box { max-width: 560px; }
+    .payment-options { display: flex; gap: 12px; margin-bottom: 8px; }
+    .payment-opt {
+      flex: 1; padding: 12px; border-radius: 12px;
+      border: 1.5px solid var(--cream-dark); text-align: center;
+      font-size: .8rem; color: var(--text-mid); cursor: pointer; transition: all var(--transition);
+    }
+    .payment-opt.selected { border-color: var(--matcha); background: var(--matcha-pale); color: var(--matcha); }
+    .payment-opt span { display: block; font-size: 1.4rem; margin-bottom: 4px; }
+ 
+    /* ============================================================
+       SUCCESS MODAL
+    ============================================================ */
+    .success-box { max-width: 420px; text-align: center; }
+    .success-anim { font-size: 4rem; margin-bottom: 16px; animation: successBounce .6s ease; }
+    @keyframes successBounce {
+      0% { transform: scale(0); } 60% { transform: scale(1.2); } 100% { transform: scale(1); }
+    }
+    .confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 3000; }
+    .confetti-piece {
+      position: absolute; width: 8px; height: 8px;
+      border-radius: 2px; animation: confettiFall 3s ease-in forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    .order-detail {
+      background: var(--cream); border-radius: 12px;
+      padding: 20px; text-align: left; margin: 20px 0;
+      font-size: .85rem; line-height: 2;
+    }
+    .order-detail strong { color: var(--matcha-dark); }
+ 
+    /* ============================================================
+       TOAST NOTIFICATION
+    ============================================================ */
+    #toast-container {
+      position: fixed; bottom: 24px; right: 24px; z-index: 5000;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .toast {
+      padding: 14px 20px; border-radius: 12px;
+      background: var(--matcha-deep); color: var(--white);
+      font-size: .85rem; box-shadow: 0 8px 24px rgba(0,0,0,.2);
+      display: flex; align-items: center; gap: 10px;
+      animation: toastIn .4s ease, toastOut .4s ease 2.8s forwards;
+      max-width: 300px;
+    }
+    .toast.error { background: #4a2222; }
+    .toast.gold { background: #4a3a10; }
+    .toast-icon { font-size: 1.1rem; }
+    @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: none; opacity: 1; } }
+    @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateX(20px); } }
+ 
+    /* ============================================================
+       ANIMATIONS HELPERS
+    ============================================================ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: none; }
+    }
+ 
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-visual { height: 280px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1/-1; }
+    }
+    @media (max-width: 680px) {
+      .nav-links, .btn-nav { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 72px 5%; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .about-stats { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .modal-box { padding: 36px 24px; }
+      #features { gap: 20px; }
+    }
