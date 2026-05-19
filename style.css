@@ -626,3 +626,225 @@
       .modal-box { padding: 36px 24px; }
       #features { gap: 20px; }
     }
+
+    /*-- ============================================================
+     LOADING SCREEN
+    ============================================================ -->
+<div id="loading-screen">
+  <div class="loading-logo">MatchaWave</div>
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+</div>
+ 
+<!-- ============================================================
+     MOBILE MENU
+============================================================ -->
+<div class="mobile-menu" id="mobile-menu">
+  <span class="mobile-close" onclick="closeMobileMenu()">✕</span>
+  <a href="#home" onclick="closeMobileMenu()">Home</a>
+  <a href="#products" onclick="closeMobileMenu()">Menu</a>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+</div>
+ 
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav id="navbar">
+  <a class="nav-logo" href="#home">MatchaWave</a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#products">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <span class="nav-user-info" id="nav-user-info"></span>
+    <button class="btn-nav" onclick="openAuthModal()" id="auth-btn">Login</button>
+    <button class="cart-btn" onclick="openCartModal()" title="Cart">
+      🛒
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+    <button class="dark-toggle" onclick="toggleDark()" title="Dark mode">🌙</button>
+    <button class="hamburger" onclick="openMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+ 
+<!-- ============================================================
+     HERO SECTION
+============================================================ -->
+<section id="home">
+  <div class="hero-bg">
+    <div class="hero-leaf">🍵</div>
+    <div class="hero-leaf">🌿</div>
+    <div class="hero-leaf">✨</div>
+  </div>
+  <div class="hero-content">
+    <span class="hero-badge">🍵 Artisan Japanese Matcha</span>
+    <h1 class="hero-title">Matcha<em>Wave</em></h1>
+    <p class="hero-tagline">Feel the Calm in Every Sip</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="scrollToProducts()">Shop Now</button>
+      <a href="#about" class="btn-secondary">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+ 
+<!-- ============================================================
+     FEATURES STRIP
+============================================================ -->
+<div id="features" class="reveal">
+  <div class="feature-item">
+    <div class="feature-icon">🌿</div>
+    <div><h4>100% Organik</h4><p>Dari petani terpercaya Jepang</p></div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-icon">🚚</div>
+    <div><h4>Gratis Ongkir</h4><p>Untuk pembelian min. Rp 150.000</p></div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-icon">✨</div>
+    <div><h4>Premium Grade</h4><p>Ceremonial & culinary grade</p></div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-icon">💚</div>
+    <div><h4>Healthy Choice</h4><p>Kaya antioksidan & L-theanine</p></div>
+  </div>
+</div>
+ 
+<!-- ============================================================
+     PRODUCTS SECTION
+============================================================ -->
+<section id="products">
+  <div class="products-header reveal">
+    <span class="section-tag">✦ Our Signature Collection</span>
+    <h2 class="section-title">Menu <em>Matcha</em> Kami</h2>
+    <p class="section-sub">Dibuat dengan cinta dan bahan-bahan premium pilihan langsung dari kebun teh Uji, Kyoto.</p>
+  </div>
+  <div class="products-grid" id="products-grid">
+    <!-- Diisi oleh JavaScript -->
+  </div>
+</section>
+ 
+<!-- ============================================================
+     ABOUT SECTION
+============================================================ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-circle">🍵</div>
+      <div class="about-ring"></div>
+      <div class="about-ring"></div>
+    </div>
+    <div class="about-text reveal">
+      <span class="section-tag">✦ Our Story</span>
+      <h2 class="section-title">Tentang <em>MatchaWave</em></h2>
+      <p class="section-sub">MatchaWave lahir dari kecintaan mendalam terhadap seni dan filosofi teh Jepang. Kami percaya bahwa secangkir matcha bukan sekadar minuman — ia adalah ritual, ketenangan, dan momen kehadiran penuh.</p>
+      <p class="section-sub" style="margin-top:12px">Setiap produk kami dibuat dengan matcha grade ceremonial pilihan dari Uji, Kyoto — tempat di mana tradisi bertemu dengan kemurnian alam.</p>
+      <div class="about-stats">
+        <div class="stat-item">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Tahun</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">12k+</div>
+          <div class="stat-label">Pelanggan</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Organik</div>
+        </div>
+      </div>
+      <div class="about-quote">
+        "Dalam setiap tegukan matcha, temukan ketenangan yang telah kita cari selama ini."
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ============================================================
+     CONTACT SECTION
+============================================================ -->
+<section id="contact">
+  <div class="reveal">
+    <span class="section-tag">✦ Get in Touch</span>
+    <h2 class="section-title">Hubungi <em>Kami</em></h2>
+    <p class="section-sub">Ada pertanyaan? Kami senang mendengar dari Anda.</p>
+  </div>
+  <div class="contact-wrap reveal">
+    <div class="form-group">
+      <label class="form-label">Nama Lengkap</label>
+      <input type="text" class="form-input" id="contact-name" placeholder="Masukkan nama Anda"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-input" id="contact-email" placeholder="email@contoh.com"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Pesan</label>
+      <textarea class="form-input" id="contact-msg" placeholder="Tuliskan pesan Anda di sini..."></textarea>
+    </div>
+    <button class="btn-submit" onclick="submitContact()">Kirim Pesan ✉️</button>
+  </div>
+</section>
+ 
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="nav-logo">MatchaWave</span>
+      <p>Bringing the calm and wisdom of Japanese matcha tradition into your daily ritual. Premium quality, honest sourcing.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Navigate</h5>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Menu</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="#">hello@matchawave.id</a></li>
+        <li><a href="#">+62 812 3456 7890</a></li>
+        <li><a href="#">@matchawave.id</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 MatchaWave. All rights reserved.</span>
+    <span>Made with 💚 &amp; 🍵</span>
+  </div>
+</footer>
+ 
+<!-- ============================================================
+     AUTH MODAL (Login & Register)
+============================================================ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('auth-modal')">✕</button>
+    <div class="modal-title">Selamat Datang</div>
+    <div class="modal-sub">Masuk atau buat akun baru</div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
+      <button class="modal-tab" id="tab-register" onclick="switchTab('register')">Register</button>
+    </div>
+ 
+    <!-- Login Form -->
+    <div id="form-login">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="login-email" placeholder="email@contoh.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="log
