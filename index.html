@@ -560,72 +560,82 @@ function openCartModal() {
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-/* ====================================================
-   AUTH FUNCTIONS
-==================================================== */
-function openAuthModal() {
-  if (currentUser) {
-    // Logout
-    currentUser = null;
-    localStorage.removeItem('mw_user');
-    updateAuthUI();
-    showToast('👋 Sampai jumpa!');
-    return;
-  }
-  openModal('auth-modal');
+async function doLogin(){
+
+    const email =
+    document.getElementById(
+    'login-email'
+    ).value;
+
+    const password =
+    document.getElementById(
+    'login-pass'
+    ).value;
+
+    const response = await fetch(
+    'login.php',{
+
+        method:'POST',
+
+        headers:{
+            'Content-Type':
+            'application/x-www-form-urlencoded'
+        },
+
+        body:
+        `email=${email}&password=${password}`
+    });
+
+    const result =
+    await response.text();
+
+    alert(result);
+
+    if(result == "success"){
+
+        window.location =
+        "dashboard.php";
+
+    }
 }
 
-function switchTab(tab) {
-  const isLogin = tab === 'login';
-  document.getElementById('form-login').style.display  = isLogin ? '' : 'none';
-  document.getElementById('form-register').style.display = isLogin ? 'none' : '';
-  document.getElementById('tab-login').classList.toggle('active', isLogin);
-  document.getElementById('tab-register').classList.toggle('active', !isLogin);
-}
+async function doRegister(){
 
-function doLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass  = document.getElementById('login-pass').value.trim();
-  if (!email || !pass) { showToast('⚠️ Email & password harus diisi!', 'error'); return; }
-  const user = users.find(u => u.email === email && u.password === pass);
-  if (!user) { showToast('❌ Email atau password salah!', 'error'); return; }
-  currentUser = user;
-  localStorage.setItem('mw_user', JSON.stringify(user));
-  closeModal('auth-modal');
-  updateAuthUI();
-  showToast(`✨ Selamat datang, ${user.name}!`, 'gold');
-}
+    const name =
+    document.getElementById(
+    'reg-name'
+    ).value;
 
-function doRegister() {
-  const name  = document.getElementById('reg-name').value.trim();
-  const email = document.getElementById('reg-email').value.trim();
-  const pass  = document.getElementById('reg-pass').value.trim();
-  if (!name || !email || !pass) { showToast('⚠️ Semua field harus diisi!', 'error'); return; }
-  if (pass.length < 6)  { showToast('⚠️ Password minimal 6 karakter!', 'error'); return; }
-  if (users.find(u => u.email === email)) { showToast('⚠️ Email sudah terdaftar!', 'error'); return; }
-  const newUser = { name, email, password: pass };
-  users.push(newUser);
-  localStorage.setItem('mw_users', JSON.stringify(users));
-  currentUser = newUser;
-  localStorage.setItem('mw_user', JSON.stringify(newUser));
-  closeModal('auth-modal');
-  updateAuthUI();
-  showToast(`🎉 Akun berhasil dibuat! Selamat datang, ${name}!`, 'gold');
-}
+    const email =
+    document.getElementById(
+    'reg-email'
+    ).value;
 
-function updateAuthUI() {
-  const btn  = document.getElementById('auth-btn');
-  const info = document.getElementById('nav-user-info');
-  if (currentUser) {
-    btn.textContent = 'Logout';
-    info.textContent = `👋 ${currentUser.name.split(' ')[0]}`;
-    info.style.display = 'block';
-  } else {
-    btn.textContent = 'Login';
-    info.style.display = 'none';
-  }
+    const password =
+    document.getElementById(
+    'reg-pass'
+    ).value;
+
+    const formData = new FormData();
+
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('password', password);
+
+    const response = await fetch(
+        'register.php',
+        {
+            method:'POST',
+            body:formData
+        }
+    );
+
+    const result =
+    await response.text();
+
+    alert(result);
+
 }
-updateAuthUI();
 
 /* ====================================================
    CHECKOUT
@@ -736,6 +746,41 @@ function showToast(msg, type = '') {
   toast.innerHTML = `<span class="toast-icon">${icons[type] || '🍵'}</span>${msg}`;
   container.appendChild(toast);
   setTimeout(() => toast.remove(), 3200);
+}
+
+/* ====================================================
+   AUTH FUNCTIONS (MISSING)
+==================================================== */
+function openAuthModal() {
+  openModal('auth-modal');
+}
+
+function switchTab(tab) {
+  document.getElementById('form-login').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('form-register').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+}
+
+function updateAuthUI() {
+  const authBtn = document.getElementById('auth-btn');
+  const userInfo = document.getElementById('nav-user-info');
+  if (currentUser) {
+    authBtn.textContent = 'Logout';
+    authBtn.onclick = doLogout;
+    if (userInfo) userInfo.textContent = currentUser.name || currentUser.email || '';
+  } else {
+    authBtn.textContent = 'Login';
+    authBtn.onclick = openAuthModal;
+    if (userInfo) userInfo.textContent = '';
+  }
+}
+
+function doLogout() {
+  currentUser = null;
+  localStorage.removeItem('mw_user');
+  updateAuthUI();
+  showToast('👋 Berhasil logout!');
 }
 
 /* ====================================================
