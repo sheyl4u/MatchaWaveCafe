@@ -294,19 +294,6 @@
       <label class="form-label">No. HP</label>
       <input type="tel" class="form-input" id="co-phone" placeholder="08xx-xxxx-xxxx"/>
     </div>
-    <div class="form-group">
-      <label class="form-label">Metode Pembayaran</label>
-      <div class="payment-options">
-        <div class="payment-opt selected" id="pay-cod" onclick="selectPayment('cod')">
-          <span>🤝</span>COD
-        </div>
-        <div class="payment-opt" id="pay-transfer" onclick="selectPayment('transfer')">
-          <span>🏦</span>Transfer
-        </div>
-        <div class="payment-opt" id="pay-ewallet" onclick="selectPayment('ewallet')">
-          <span>📱</span>E-Wallet
-        </div>
-      </div>
     </div>
     <button class="btn-auth" onclick="doCheckout()">Konfirmasi Pesanan 🎉</button>
   </div>
@@ -591,13 +578,32 @@ async function doLogin(){
 
     alert(result);
 
-    if(result == "success"){
+    if(result.trim() == "success"){
 
-        window.location =
-        "dashboard.php";
+    currentUser = {
+        email: email,
+        name: email.split('@')[0]
+    };
+
+    localStorage.setItem(
+        'mw_user',
+        JSON.stringify(currentUser)
+    );
+
+    closeModal('auth-modal');
+
+    updateAuthUI();
+
+    showToast(
+        '✨ Login berhasil!',
+        'gold'
+    );
+
+}
+
+  
 
     }
-}
 
 async function doRegister(){
 
@@ -637,116 +643,155 @@ async function doRegister(){
 
 }
 
-/* ====================================================
+//* ====================================================
    CHECKOUT
-==================================================== */
+//==================================================== */
 function openCheckout() {
+
   if (!currentUser) {
+
     closeModal('cart-modal');
-    showToast('🔐 Silakan login terlebih dahulu!', 'error');
-    setTimeout(() => openModal('auth-modal'), 500);
+
+    showToast(
+      '🔐 Silakan login terlebih dahulu!',
+      'error'
+    );
+
+    setTimeout(() => {
+      openModal('auth-modal');
+    }, 500);
+
     return;
   }
+
   if (currentUser) {
-    document.getElementById('co-name').value = currentUser.name || '';
+    document.getElementById('co-name').value =
+    currentUser.name || '';
   }
+
   closeModal('cart-modal');
   openModal('checkout-modal');
 }
 
-function selectPayment(type) {
-  selectedPayment = type;
-  ['cod', 'transfer', 'ewallet'].forEach(t => {
-    document.getElementById(`pay-${t}`).classList.toggle('selected', t === type);
-  });
-}
-
-function doCheckout() {
-  async function doCheckout(){
+/* ====================================================
+   MIDTRANS CHECKOUT
+==================================================== */
+async function doCheckout(){
 
   const name =
-  document.getElementById('co-name').value;
+  document.getElementById(
+    'co-name'
+  ).value;
 
   const address =
-  document.getElementById('co-address').value;
+  document.getElementById(
+    'co-address'
+  ).value;
 
   const phone =
-  document.getElementById('co-phone').value;
+  document.getElementById(
+    'co-phone'
+  ).value;
 
   if(!name || !address || !phone){
-    showToast('⚠️ Lengkapi data dulu!', 'error');
+
+    showToast(
+      '⚠️ Lengkapi data dulu!',
+      'error'
+    );
+
     return;
   }
 
   const total = getCartTotal();
 
-  const response = await fetch('checkout.php', {
+  try {
 
-    method:'POST',
+    const response = await fetch(
+      'checkout.php',
+      {
+        method:'POST',
 
-    headers:{
-      'Content-Type':'application/json'
-    },
+        headers:{
+          'Content-Type':'application/json'
+        },
 
-    body: JSON.stringify({
-      name:name,
-      phone:phone,
-      total:total
-    })
+        body: JSON.stringify({
+          name:name,
+          address:address,
+          phone:phone,
+          total:total
+        })
+      }
+    );
 
-  });
+    const data = await response.json();
 
-  const data = await response.json();
+    snap.pay(data.token, {
 
-  snap.pay(data.token, {
+      onSuccess: function(result){
 
-    onSuccess: function(result){
+        cart = [];
+        saveCart();
+        updateCartBadge();
 
-      cart = [];
-      saveCart();
-      updateCartBadge();
+        closeModal('checkout-modal');
 
-      closeModal('checkout-modal');
+        openModal('success-modal');
 
-      openModal('success-modal');
+        document.getElementById(
+          'order-detail'
+        ).innerHTML = `
 
-      document.getElementById(
-      'order-detail').innerHTML = `
+          <strong>Nama:</strong> ${name}<br>
 
-        <strong>Nama:</strong> ${name}<br>
-        <strong>Total:</strong>
-        Rp ${total.toLocaleString('id-ID')}<br>
+          <strong>Alamat:</strong>
+          ${address}<br>
 
-        <strong>Status:</strong>
-        Pembayaran Berhasil ✅
+          <strong>No HP:</strong>
+          ${phone}<br>
 
-      `;
+          <strong>Total:</strong>
+          Rp ${total.toLocaleString('id-ID')}<br>
 
-    },
+          <strong>Status:</strong>
+          Pembayaran Berhasil ✅
 
-    onPending: function(result){
+        `;
 
-      showToast(
-      '⏳ Menunggu pembayaran');
+        launchConfetti();
+      },
 
-    },
+      onPending: function(result){
 
-    onError: function(result){
+        showToast(
+          '⏳ Menunggu pembayaran'
+        );
 
-      showToast(
-      '❌ Pembayaran gagal',
-      'error');
+      },
 
-    }
+      onError: function(result){
 
-  });
+        showToast(
+          '❌ Pembayaran gagal',
+          'error'
+        );
 
-}
-}
+      }
 
-function closeSuccess() {
-  closeModal('success-modal');
-  document.getElementById('confetti-wrap').innerHTML = '';
+    });
+
+  } catch(error){
+
+    console.log(error);
+
+    showToast(
+      '❌ Checkout error',
+      'error'
+    );
+
+  }
+
 }
 
 
@@ -855,6 +900,6 @@ updateAuthUI();
 </script>
 
 <script src="https://app.sandbox.midtrans.com/snap/snap.js"
-data-client-key="Mid-client-_4-QMLHAwzVUVfC_></script>
+data-client-key="Mid-client-_4-QMLHAwzVUVfC_"></script>
 </body>
 </html>
