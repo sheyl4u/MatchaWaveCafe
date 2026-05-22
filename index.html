@@ -662,39 +662,93 @@ function selectPayment(type) {
 }
 
 function doCheckout() {
-  const name    = document.getElementById('co-name').value.trim();
-  const address = document.getElementById('co-address').value.trim();
-  const phone   = document.getElementById('co-phone').value.trim();
-  if (!name || !address || !phone) { showToast('⚠️ Semua field harus diisi!', 'error'); return; }
+  async function doCheckout(){
 
-  const payLabels = { cod: 'COD (Bayar di Tempat)', transfer: 'Transfer Bank', ewallet: 'E-Wallet' };
-  const orderNum = 'MW-' + Date.now().toString().slice(-6);
+  const name =
+  document.getElementById('co-name').value;
+
+  const address =
+  document.getElementById('co-address').value;
+
+  const phone =
+  document.getElementById('co-phone').value;
+
+  if(!name || !address || !phone){
+    showToast('⚠️ Lengkapi data dulu!', 'error');
+    return;
+  }
+
   const total = getCartTotal();
-  const items = cart.map(c => `${c.name} x${c.qty}`).join(', ');
 
-  document.getElementById('order-detail').innerHTML = `
-    <strong>No. Pesanan:</strong> ${orderNum}<br>
-    <strong>Nama:</strong> ${name}<br>
-    <strong>Alamat:</strong> ${address}<br>
-    <strong>No. HP:</strong> ${phone}<br>
-    <strong>Produk:</strong> ${items}<br>
-    <strong>Pembayaran:</strong> ${payLabels[selectedPayment]}<br>
-    <strong>Total:</strong> Rp ${total.toLocaleString('id-ID')}
-  `;
+  const response = await fetch('checkout.php', {
 
-  cart = [];
-  saveCart();
-  updateCartBadge();
+    method:'POST',
 
-  closeModal('checkout-modal');
-  openModal('success-modal');
-  launchConfetti();
+    headers:{
+      'Content-Type':'application/json'
+    },
+
+    body: JSON.stringify({
+      name:name,
+      phone:phone,
+      total:total
+    })
+
+  });
+
+  const data = await response.json();
+
+  snap.pay(data.token, {
+
+    onSuccess: function(result){
+
+      cart = [];
+      saveCart();
+      updateCartBadge();
+
+      closeModal('checkout-modal');
+
+      openModal('success-modal');
+
+      document.getElementById(
+      'order-detail').innerHTML = `
+
+        <strong>Nama:</strong> ${name}<br>
+        <strong>Total:</strong>
+        Rp ${total.toLocaleString('id-ID')}<br>
+
+        <strong>Status:</strong>
+        Pembayaran Berhasil ✅
+
+      `;
+
+    },
+
+    onPending: function(result){
+
+      showToast(
+      '⏳ Menunggu pembayaran');
+
+    },
+
+    onError: function(result){
+
+      showToast(
+      '❌ Pembayaran gagal',
+      'error');
+
+    }
+
+  });
+
+}
 }
 
 function closeSuccess() {
   closeModal('success-modal');
   document.getElementById('confetti-wrap').innerHTML = '';
 }
+
 
 /* ====================================================
    CONFETTI
@@ -799,5 +853,8 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
 updateCartBadge();
 updateAuthUI();
 </script>
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js"
+data-client-key="Mid-client-_4-QMLHAwzVUVfC_></script>
 </body>
 </html>
