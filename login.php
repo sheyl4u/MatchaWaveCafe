@@ -1,43 +1,35 @@
 <?php
-
 session_start();
-
-include 'db.php';
+include("db.php");
 
 $email = $_POST['email'];
-
 $password = $_POST['password'];
 
 $query = mysqli_query(
-
     $conn,
-
-    "SELECT * FROM users
-    WHERE email='$email'"
-
+    "SELECT * FROM users WHERE email='$email'"
 );
 
-if(mysqli_num_rows($query) > 0){
+$data = mysqli_fetch_assoc($query);
 
-    $user = mysqli_fetch_assoc($query);
+if($data){
 
-    if(password_verify(
-        $password,
-        $user['password']
-    )){
+    if(password_verify($password, $data['password'])){
 
-        $_SESSION['user'] = $user;
+        $_SESSION['name'] = $data['name'];
+        $_SESSION['email'] = $data['email'];
 
-        echo "success";
+        echo $data['name'];
 
-    }else{
+    } else {
 
-        echo "Password salah!";
+        echo "Email atau password salah";
+
     }
 
-}else{
+} else {
 
-    echo "Email tidak ditemukan!";
+    echo "Email atau password salah";
+
 }
-
 ?>

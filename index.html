@@ -589,12 +589,31 @@ async function doLogin(){
     const result =
     await response.text();
 
-    alert(result);
+    if(result != "Email atau password salah"){
 
-    if(result == "success"){
+        currentUser = {
+            name: result.trim(),
+            email: email
+        };
 
-        window.location =
-        "dashboard.php";
+        localStorage.setItem(
+            'mw_user',
+            JSON.stringify(currentUser)
+        );
+
+        updateAuthUI();
+
+        closeModal('auth-modal');
+
+        showToast(`🍵 Selamat datang, ${result}!`);
+
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 1000);
+
+    } else {
+
+        showToast(result, 'error');
 
     }
 }
@@ -633,7 +652,11 @@ async function doRegister(){
     const result =
     await response.text();
 
-    alert(result);
+    showToast(result);
+
+    setTimeout(() => {
+    window.location.href = "index.html";
+    }, 1000);
 
 }
 
@@ -765,14 +788,22 @@ function switchTab(tab) {
 function updateAuthUI() {
   const authBtn = document.getElementById('auth-btn');
   const userInfo = document.getElementById('nav-user-info');
+
   if (currentUser) {
+
     authBtn.textContent = 'Logout';
     authBtn.onclick = doLogout;
-    if (userInfo) userInfo.textContent = currentUser.name || currentUser.email || '';
+
+    userInfo.textContent =
+    `👤 ${currentUser.name}`;
+
   } else {
+
     authBtn.textContent = 'Login';
     authBtn.onclick = openAuthModal;
-    if (userInfo) userInfo.textContent = '';
+
+    userInfo.textContent = '';
+
   }
 }
 
