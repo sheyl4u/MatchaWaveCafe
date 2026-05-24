@@ -6,28 +6,37 @@ ini_set('display_errors', 1);
 require_once __DIR__ . '/vendor/autoload.php';
 require_once 'db.php';
 
-/* =========================================
-   MIDTRANS CONFIG
-========================================= */
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-\Midtrans\Config::$serverKey = 'Mid-server-CrTdnigRuLCIl34SLTt9CEVO';
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/db.php';
+
+\Midtrans\Config::$serverKey = 'Mid-server-49a4xObtkA19uqUHXVEjbemu';
 \Midtrans\Config::$isProduction = false;
 \Midtrans\Config::$isSanitized = true;
 \Midtrans\Config::$is3ds = true;
 
-/* =========================================
-   AMBIL DATA DARI FETCH JS
-========================================= */
+$customer_name = $_POST['customer_name'];
+$product_name  = $_POST['product_name'];
+$total_price   = (int) $_POST['total_price'];
 
-$data = json_decode(
-    file_get_contents("php://input"),
-    true
+$order_id = "ORDER-" . rand();
+
+$params = array(
+    'transaction_details' => array(
+        'order_id' => $order_id,
+        'gross_amount' => $total_price,
+    ),
+
+    'customer_details' => array(
+        'first_name' => $customer_name,
+    ),
 );
 
-$name   = $data['name'];
-$email  = $data['email'];
-$phone  = $data['phone'];
-$amount = $data['total'];
+$snapToken = \Midtrans\Snap::getSnapToken($params);
+
+echo $snapToken;
 
 /* =========================================
    BUAT ORDER ID
@@ -40,7 +49,6 @@ $order_id = "ORDER-" . time();
 ========================================= */
 
 $conn->query("
-
 INSERT INTO orders(
 order_id,
 name,
@@ -56,7 +64,6 @@ VALUES(
 '$amount',
 'pending'
 )
-
 ");
 
 /* =========================================
@@ -82,15 +89,20 @@ $params = array(
    GENERATE SNAP TOKEN
 ========================================= */
 
-$snapToken =
-\Midtrans\Snap::getSnapToken($params);
+try {
 
-/* =========================================
-   KIRIM TOKEN KE JS
-========================================= */
+    $snapToken =
+    \Midtrans\Snap::getSnapToken($params);
 
-echo json_encode([
-    "token" => $snapToken
-]);
+    echo json_encode([
+        "token" => $snapToken
+    ]);
 
+} catch (Exception $e) {
+
+    echo json_encode([
+        "error" => $e->getMessage()
+    ]);
+
+}
 ?>
