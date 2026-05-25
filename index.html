@@ -340,7 +340,7 @@
     <div class="modal-title">Transaksi Berhasil!</div>
     <div class="modal-sub">Pesanan Anda sedang diproses</div>
     <div class="order-detail" id="order-detail"></div>
-   <button class="btn-auth" onclick="window.location.href='index.html'">Kembali Berbelanja 🍵</button>
+   <button class="btn-auth" onclick="closeSuccess()">Kembali Berbelanja 🍵</button>
   </div>
 </div>
 
@@ -499,6 +499,10 @@ function addToCart(productId) {
   updateCartBadge();
   showToast(`🛒 ${p.name} ditambahkan ke keranjang!`);
 }
+function closeSuccess() {
+  closeModal('success-modal');
+  document.getElementById('confetti-wrap').innerHTML = '';
+}
 
 function saveCart() {
   localStorage.setItem('mw_cart', JSON.stringify(cart));
@@ -608,18 +612,21 @@ async function doLogin(){
     const result =
     await response.text();
 
+
     if(result != "Email atau password salah"){
 
-        currentUser = {
-            name: result.trim(),
-            email: email
-        };
+      currentUser = {
+        name: result.trim(),
+        email: email
+      };
 
-        updateAuthUI();
+      localStorage.setItem('mw_user', JSON.stringify(currentUser));
 
-        closeModal('auth-modal');
+      updateAuthUI();
 
-        showToast(`🍵 Selamat datang, ${result}!`);
+      closeModal('auth-modal');
+
+      showToast(`🍵 Selamat datang, ${result}!`);
 
     } else {
 

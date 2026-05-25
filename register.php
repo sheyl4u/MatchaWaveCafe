@@ -1,6 +1,6 @@
 <?php
+session_start();
 include("db.php");
-
 $name = $_POST['name'];
 $email = $_POST['email'];
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -21,5 +21,5 @@ $user = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
 $data = mysqli_fetch_assoc($user);
 
 $_SESSION['user'] = $data;
-
+echo "success";
 ?>
