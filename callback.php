@@ -1,11 +1,36 @@
-<?php
-require_once 'db.php';
+ <!-- <?php 
 
-$json = file_get_contents("php://input");
-$data = json_decode($json);
+// require '/db.php';
 
-$order_id = $data->order_id;
-$status = $data->transaction_status;
+//$json = file_get_contents("php://input");
+// $data = json_decode($json);
 
-$conn->query("UPDATE orders SET status='$status'
- WHERE order_id='$order_id'");
+//$order_id = $data->order_id;
+// $status = $data->transaction_status;
+
+// if ($status == "settlement") {
+
+//     mysqli_query($conn, "
+//     UPDATE orders
+//     SET status='paid'
+//     WHERE order_id='$order_id'
+//     ");
+
+// } else if ($status == "pending") {
+
+//     mysqli_query($conn, "
+//     UPDATE orders
+//     SET status='pending'
+//     WHERE order_id='$order_id'
+//     ");
+
+// } else {
+
+//     mysqli_query($conn, "
+//     UPDATE orders
+//     SET status='failed'
+//     WHERE order_id='$order_id'
+//     ");
+
+// }
+?>  

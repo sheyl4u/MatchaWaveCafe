@@ -1,84 +1,52 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
-require 'config/db.php';
-require 'vendor/autoload.php';
+// require __DIR__ . '/vendor/autoload.php';
+// require __DIR__ . '/db.php';
 
-\Midtrans\Config::$serverKey = 'Mid-server-49a4xObtkA19uqUHXVEjbemu';
-\Midtrans\Config::$isProduction = false;
-\Midtrans\Config::$isSanitized = true;
-\Midtrans\Config::$is3ds = true;
+// \Midtrans\Config::$serverKey = 'Mid-server-49a4xObtkA19uqUHXVEjbemu';
+// \Midtrans\Config::$isProduction = false;
 
-$customer_name = $_POST['customer_name'];
-$product_name = $_POST['product_name'];
-$total_price = $_POST['total_price'];
+// $params = array(
+//     'transaction_details' => array(
+//         'order_id' => rand(),
+//         'gross_amount' => 10000,
+//     ),
+// );
 
-$order_id = "ORDER-" . rand();
+// $snapToken = \Midtrans\Snap::getSnapToken($params);
 
-mysqli_query($conn, "
-INSERT INTO orders (
-    order_id,
-    customer_name,
-    product_name,
-    total_price,
-    status
-) VALUES (
-    '$order_id',
-    '$customer_name',
-    '$product_name',
-    '$total_price',
-    'pending'
-)
-");
+// ?>
 
-$params = array(
-    'transaction_details' => array(
-        'order_id' => $order_id,
-        'gross_amount' => $total_price,
-    ),
+// <!DOCTYPE html>
+// <html>
+// <head>
 
-    'customer_details' => array(
-        'first_name' => $customer_name,
-    ),
-);
+// <script
+// type="text/javascript"
+// src="https://app.sandbox.midtrans.com/snap/snap.js"
+// data-client-key="Mid-client-iz-JBWzlgZnwCLpR">
+// </script>
 
-$snapToken = \Midtrans\Snap::getSnapToken($params);
+// </head>
 
-?>
+// <body>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Pembayaran</title>
+// <button onclick="payNow()">
+// Bayar
+// </button>
 
-    <script 
-        src="https://app.sandbox.midtrans.com/snap/snap.js"
-        data-client-key="Mid-client-iz-JBWzlgZnwCLpR">
-    </script>
-</head>
-<body>
+// <script>
 
-<script>
+// function payNow(){
 
-snap.pay('<?= $snapToken ?>', {
+//     snap.pay('<?= $snapToken ?>');
 
-    onSuccess: function(result){
-        window.location.href = "success.php";
-    },
+// }
 
-    onPending: function(result){
-        alert("Menunggu pembayaran");
-    },
+// </script>
 
-    onError: function(result){
-        alert("Pembayaran gagal");
-    }
-
-});
-
-</script>
-
-</body>
-</html>
+// </body>
+// </html>
