@@ -596,15 +596,11 @@ async function doLogin(){
             email: email
         };
 
-        
-
         updateAuthUI();
 
         closeModal('auth-modal');
 
         showToast(`🍵 Selamat datang, ${result}!`);
-
-        
 
     } else {
 
@@ -648,6 +644,7 @@ async function doRegister(){
     await response.text();
 
     showToast(result);
+
 }
 
 /* ====================================================
