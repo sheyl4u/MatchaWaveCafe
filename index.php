@@ -7,7 +7,7 @@
 <title>MatchaWave Payment</title>
 
 <script src="https://app.sandbox.midtrans.com/snap/snap.js"
-data-client-key="Mid-client-iz-JBWzlgZnwCLpR"></script>
+data-client-key="Mid-client-_4-QMLHAwzVUVfC_"></script>
 
 <body>
 <button id="pay">Bayar</button>
