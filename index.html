@@ -608,12 +608,22 @@ async function doLogin(){
     const result =
     await response.text();
 
-    alert(result);
+    if(result != "Email atau password salah"){
 
-    if(result == "success"){
+        currentUser = {
+            name: result.trim(),
+            email: email
+        };
 
-        window.location =
-        "dashboard.php";
+        updateAuthUI();
+
+        closeModal('auth-modal');
+
+        showToast(`🍵 Selamat datang, ${result}!`);
+
+    } else {
+
+        showToast(result, 'error');
 
     }
 }
@@ -653,10 +663,6 @@ async function doRegister(){
     await response.text();
 
     showToast(result);
-
-    setTimeout(() => {
-    window.location.href = "index.html";
-    }, 1000);
 
 }
 
