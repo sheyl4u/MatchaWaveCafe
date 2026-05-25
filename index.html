@@ -596,10 +596,14 @@ async function doLogin(){
             email: email
         };
 
+<<<<<<< HEAD
         localStorage.setItem(
             'mw_user',
             JSON.stringify(currentUser)
         );
+=======
+        
+>>>>>>> 879a60101991c530cd5290ad473cf9559ccb9561
 
         updateAuthUI();
 
@@ -607,9 +611,13 @@ async function doLogin(){
 
         showToast(`🍵 Selamat datang, ${result}!`);
 
+<<<<<<< HEAD
         setTimeout(() => {
             window.location.href = "index.html";
         }, 1000);
+=======
+        
+>>>>>>> 879a60101991c530cd5290ad473cf9559ccb9561
 
     } else {
 
@@ -653,11 +661,14 @@ async function doRegister(){
     await response.text();
 
     showToast(result);
+<<<<<<< HEAD
 
     setTimeout(() => {
     window.location.href = "index.html";
     }, 1000);
 
+=======
+>>>>>>> 879a60101991c530cd5290ad473cf9559ccb9561
 }
 
 /* ====================================================
