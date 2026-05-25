@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
+ 
 </head>
 <body>
 
@@ -279,36 +280,54 @@
 ============================================================ -->
 <div class="modal-overlay" id="checkout-modal">
   <div class="modal-box checkout-box">
-    <button class="modal-close" onclick="closeModal('checkout-modal')">✕</button>
+
+    <button class="modal-close"
+      onclick="closeModal('checkout-modal')">✕</button>
+
     <div class="modal-title">Checkout</div>
-    <div class="modal-sub">Lengkapi informasi pengiriman Anda</div>
+
+    <div class="modal-sub">
+      Lengkapi informasi pengiriman Anda
+    </div>
+
     <div class="form-group">
       <label class="form-label">Nama Penerima</label>
-      <input type="text" class="form-input" id="co-name" placeholder="Nama lengkap"/>
+
+      <input
+        type="text"
+        class="form-input"
+        id="co-name"
+        placeholder="Nama lengkap"
+      />
     </div>
+
     <div class="form-group">
       <label class="form-label">Alamat Pengiriman</label>
-      <textarea class="form-input" id="co-address" placeholder="Jl. ..." style="min-height:80px"></textarea>
+
+      <textarea
+        class="form-input"
+        id="co-address"
+        placeholder="Jl. ..."
+        style="min-height:80px"
+      ></textarea>
     </div>
+
     <div class="form-group">
       <label class="form-label">No. HP</label>
-      <input type="tel" class="form-input" id="co-phone" placeholder="08xx-xxxx-xxxx"/>
+
+      <input
+        type="tel"
+        class="form-input"
+        id="co-phone"
+        placeholder="08xx-xxxx-xxxx"
+      />
     </div>
-    <div class="form-group">
-      <label class="form-label">Metode Pembayaran</label>
-      <div class="payment-options">
-        <div class="payment-opt selected" id="pay-cod" onclick="selectPayment('cod')">
-          <span>🤝</span>COD
-        </div>
-        <div class="payment-opt" id="pay-transfer" onclick="selectPayment('transfer')">
-          <span>🏦</span>Transfer
-        </div>
-        <div class="payment-opt" id="pay-ewallet" onclick="selectPayment('ewallet')">
-          <span>📱</span>E-Wallet
-        </div>
-      </div>
-    </div>
-    <button class="btn-auth" onclick="doCheckout()">Konfirmasi Pesanan 🎉</button>
+
+    <button class="btn-auth"
+      onclick="doCheckout()">
+      Konfirmasi Pesanan 🎉
+    </button>
+
   </div>
 </div>
 
@@ -321,7 +340,7 @@
     <div class="modal-title">Transaksi Berhasil!</div>
     <div class="modal-sub">Pesanan Anda sedang diproses</div>
     <div class="order-detail" id="order-detail"></div>
-    <button class="btn-auth" onclick="closeSuccess()">Kembali Berbelanja 🍵</button>
+   <button class="btn-auth" onclick="window.location.href='index.html'">Kembali Berbelanja 🍵</button>
   </div>
 </div>
 
@@ -596,22 +615,12 @@ async function doLogin(){
             email: email
         };
 
-<<<<<<< HEAD
-        
-
-=======
->>>>>>> 51e0550900f13c99cebfdd76f2512ef6ef8258c8
         updateAuthUI();
 
         closeModal('auth-modal');
 
         showToast(`🍵 Selamat datang, ${result}!`);
 
-<<<<<<< HEAD
-        
-
-=======
->>>>>>> 51e0550900f13c99cebfdd76f2512ef6ef8258c8
     } else {
 
         showToast(result, 'error');
@@ -654,70 +663,119 @@ async function doRegister(){
     await response.text();
 
     showToast(result);
-<<<<<<< HEAD
-=======
 
->>>>>>> 51e0550900f13c99cebfdd76f2512ef6ef8258c8
 }
 
-/* ====================================================
-   CHECKOUT
-==================================================== */
+//* ====================================================
+   //CHECKOUT
+//==================================================== */
 function openCheckout() {
+
   if (!currentUser) {
+
     closeModal('cart-modal');
-    showToast('🔐 Silakan login terlebih dahulu!', 'error');
-    setTimeout(() => openModal('auth-modal'), 500);
+
+    showToast(
+      '🔐 Silakan login terlebih dahulu!',
+      'error'
+    );
+
+    setTimeout(() => {
+      openModal('auth-modal');
+    }, 500);
+
     return;
   }
+
   if (currentUser) {
-    document.getElementById('co-name').value = currentUser.name || '';
+    document.getElementById('co-name').value =
+    currentUser.name || '';
   }
+
   closeModal('cart-modal');
   openModal('checkout-modal');
 }
 
-function selectPayment(type) {
-  selectedPayment = type;
-  ['cod', 'transfer', 'ewallet'].forEach(t => {
-    document.getElementById(`pay-${t}`).classList.toggle('selected', t === type);
-  });
-}
+/* ====================================================
+   MIDTRANS CHECKOUT
+==================================================== */
+async function doCheckout() {
 
-function doCheckout() {
-  const name    = document.getElementById('co-name').value.trim();
-  const address = document.getElementById('co-address').value.trim();
-  const phone   = document.getElementById('co-phone').value.trim();
-  if (!name || !address || !phone) { showToast('⚠️ Semua field harus diisi!', 'error'); return; }
+  const name =
+    document.getElementById('co-name').value.trim();
 
-  const payLabels = { cod: 'COD (Bayar di Tempat)', transfer: 'Transfer Bank', ewallet: 'E-Wallet' };
-  const orderNum = 'MW-' + Date.now().toString().slice(-6);
+  const address =
+    document.getElementById('co-address').value.trim();
+
+  const phone =
+    document.getElementById('co-phone').value.trim();
+
+  if (!name || !address || !phone) {
+
+    showToast(
+      '⚠️ Semua field harus diisi!',
+      'error'
+    );
+
+    return;
+  }
+
   const total = getCartTotal();
-  const items = cart.map(c => `${c.name} x${c.qty}`).join(', ');
 
-  document.getElementById('order-detail').innerHTML = `
-    <strong>No. Pesanan:</strong> ${orderNum}<br>
-    <strong>Nama:</strong> ${name}<br>
-    <strong>Alamat:</strong> ${address}<br>
-    <strong>No. HP:</strong> ${phone}<br>
-    <strong>Produk:</strong> ${items}<br>
-    <strong>Pembayaran:</strong> ${payLabels[selectedPayment]}<br>
-    <strong>Total:</strong> Rp ${total.toLocaleString('id-ID')}
-  `;
+  try {
 
+    const response =
+     await fetch(`token.php?total=${total}&name=${encodeURIComponent(currentUser.name)}&email=${encodeURIComponent(currentUser.email)}`);
+
+    const token =
+      (await response.text()).trim();
+
+    console.log(token);
+
+    snap.pay(token, {
+
+    onSuccess: function(result){
   cart = [];
   saveCart();
   updateCartBadge();
-
   closeModal('checkout-modal');
   openModal('success-modal');
   launchConfetti();
+  showToast('🎉 Pembayaran berhasil!', 'gold');
+},
+
+      onPending: function(result){
+
+        showToast(
+          '⏳ Menunggu pembayaran'
+        );
+
+      },
+
+      onError: function(result){
+
+        showToast(
+          '❌ Pembayaran gagal',
+          'error'
+        );
+
+      }
+
+    });
+
+  } catch(error){
+
+    console.log(error);
+
+    showToast(
+      '❌ Checkout error',
+      'error'
+    );
+
+  }
+
 }
 
-function closeSuccess() {
-  closeModal('success-modal');
-  document.getElementById('confetti-wrap').innerHTML = '';
-}
 
 /* ====================================================
    CONFETTI
@@ -830,5 +888,8 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
 updateCartBadge();
 updateAuthUI();
 </script>
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js"
+data-client-key="Mid-client-_4-QMLHAwzVUVfC_"></script>
 </body>
 </html>
